@@ -293,21 +293,128 @@ console.log(result);
 
 // Promise { <state>: "fulfilled", <value>: "Hello World" }
 // =======================================================================
-/ Using async/await
+// / Using async/await
 async function foo() {
-    return 'Hello World';
+  return "Hello World";
 }
 
 async function main() {
-    const result = await foo();
-    console.log(result); // Output: "Hello World"
+  const result = await foo();
+  console.log(result); // Output: "Hello World"
 }
 
 main();
 
 // Using .then()
-foo().then(result => {
-    console.log(result); // Output: "Hello World"
+foo().then((result) => {
+  console.log(result); // Output: "Hello World"
 });
 
 // =======================================================================
+
+const objects = {
+  id: 123,
+  name: "John Doe",
+};
+
+Object.defineProperty(objects, "id", {
+  value: 123,
+  writable: false, // Prevents modification of the property
+  configurable: false, // Prevents deletion or redefinition of the property
+});
+
+// Trying to change the id property will not work
+objects.id = 456; // This will have no effect
+
+console.log(objects.id); // Output: 123
+
+// The name property can still be changed
+objects.name = "Jane Doe";
+console.log(objects.name); // Output: Jane Doe
+
+// Trying to delete the id property will also not work
+delete objects.id; // This will have no effect
+
+console.log(objects.id); // Output: 123
+
+// ===================================================================================
+
+// What are closures and why we need closures?
+
+function counter() {
+  let count = 0;
+
+  return function inner() {
+    count++;
+    return count;
+  };
+}
+
+const counters = counter();
+console.log(counters(), "counter");
+console.log(counters(), "counter");
+console.log(counters(), "counter");
+
+// ======================================================================================
+("use strict");
+
+function foo() {
+  console.log(this); // Will output the receiver object
+}
+
+// Define a receiver object
+const receiver = { name: "Receiver Object" };
+
+// Call foo with 'receiver' as the explicit receiver
+foo.call(receiver); // Output: { name: 'Receiver Object' }
+
+// ============================================================================================
+
+const intervalIds = setInterval(() => {
+  console.log("This message is displayed every 1 second");
+}, 1000);
+
+setTimeout(() => {
+  clearInterval(intervalIds);
+  console.log("finicsh");
+}, 2000);
+// Stop the interval after 5 seconds
+
+const intervalId = setTimeout(() => {
+  console.log("This message is displayed after 1 second");
+}, 1000);
+
+function multiply(num) {
+  return function (factor) {
+    return num * factor;
+  };
+}
+
+const double = multiply(2);
+
+console.log(double(4));
+// =========================================================
+
+// spread operator
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1];
+console.log(arr2);
+
+arr1.push(7);
+
+console.log(arr1, "arr1");
+console.log(arr2, "arr2");
+
+const arr3 = [...arr1, ...arr2];
+console.log(arr3, "arr3");
+
+const numbers = [1, 2, 3];
+console.log(Math.max(...numbers));
+
+const obj1 = { a: 1, b: 2 };
+const obj2 = { ...obj1 };
+console.log("obj2", obj2);
+
+obj1.c = 4;
+
+console.log("obj2", obj1);
